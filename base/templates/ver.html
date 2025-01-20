@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class=" container-fluid text-center mx-auto mt-5">
+    <div class="mb-4">
+        <h2><strong>Tema:</strong> {{ asesoria.tema | capitalize }}</h2>
+    </div>
+    <div class="mb-3">
+        <p><strong>Solicitante:</strong> {{ asesoria.nombre_usuario | capitalize }}</p>
+    </div>
+    <div class="mb-3">
+        <p><strong>Fecha:</strong> {{ asesoria.fecha }}</p>
+    </div>
+    <div class="mb-3">
+        <p><strong>Duración:</strong> {{ asesoria.duracion }} horas</p>
+    </div>
+    <div class="mb-3">
+        <p><strong>Nota:</strong> {{ asesoria.nota }}</p>
+    </div>
+    <div class="mb-3 text-primary">
+        <p>Tutor actual: {{ asesoria.nombre_tutor | capitalize }}</p>
+    </div>
+    <div class="mb-3 text-secondar mt-3">
+        {% if puede_cambiar_tutor %}
+        <h3>Seleccionar nuevo tutor:</h3>
+        <form action="{{ url_for('vista.update_tutor_ver', id=asesoria.id) }}" method="POST">
+            <select id="tutor_id" name="tutor_id">
+                {% for usuario in usuarios %}
+                <option value="{{ usuario.id }}" {% if usuario.id==asesoria.tutor_id %}selected{% endif %}>{{
+                    usuario.nombre | capitalize }}</option>
+                {% endfor %}
+            </select>
+            <button class="btn btn-success" type="submit">Cambiar Tutor</button>
+        </form>
+        {% endif %}
+    </div>
+
+
+
+
+</main>
+{% endblock %}

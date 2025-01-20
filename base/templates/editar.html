@@ -1,0 +1,73 @@
+{% extends 'base.html'%}
+
+{% block content %}
+
+
+<section class="container-fuid" mx-auto>
+
+
+    <form method="POST" action="{{ url_for('vista.update') }}" class="coll-11 p-4 my-6 text-dark mx-auto">
+        <h1 class="text-primary text-center my-4">Editar Asesoría</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <ul>
+            {% for category, message in messages %}
+            <li class="text-danger text-center list-unstyled mx-auto {{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+        <div class="d-flex justify-content-center align-items-center ">
+            <div class="col-4">
+                <input type="hidden" name="id" value="{{ asesoria.id }}">
+                <div class="form-group">
+                    <label for="tema">Tema:</label>
+                    <input type="text" id="tema" name="tema" class="form-control" value="{{ asesoria.tema }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha" class="form-control" value="{{ asesoria.fecha }}"
+                        min="{{ today|string }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="duracion">Duración (horas):</label>
+                    <input type="number" name="duracion" min="1" max="8" class="form-control"
+                        value="{{ asesoria.duracion }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="nota">Nota:</label>
+                    <textarea cols="20" rows="4" class="form-control" id="nota" name="nota"
+                        maxlength="50">{{ asesoria.nota }}</textarea>
+                </div>
+                <br>
+                <div class="form-group">
+                    <input type="hidden" name="pagina" value="edit">
+                    <label for="tutor_id" value="{{ tutor_id }}">Tutor:</label>
+                    <select id="tutor_id" name="tutor_id" required>
+                        <option value="" disabled selected>Seleccione un tutor</option>
+                        {% for usuario in usuarios %} <!--este for permite recorrer a todos los usuarios -->
+                        {% if usuario.id != session['usuario_id'] %}
+                        <!--este if permite identificar al usuario que esta logeado y lo anula para la opcion de usuarios-->
+                        <option value="{{ usuario.id }}">{{ usuario.nombre|capitalize }}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <!-- Campo oculto para enviar el ID del usuario logueado -->
+                    <input type="hidden" name="usuario_id" value="{{session['usuario_id']}}">
+
+                    <div class="d-flex justify-content-center align-items-center col-12 text-dark">
+                        <!-- Botón para enviar el formulario -->
+                        <button type="submit" class="btn btn-success mt-3">Agregar</button>
+                        <a href="{{url_for('usuarios.dashboard')}}" class="btn btn-secondary mt-3 ms-2"> Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+
+{% endblock %}

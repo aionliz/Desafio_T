@@ -1,0 +1,82 @@
+{% extends 'base.html'%}
+
+
+
+{% block content %}
+
+<h1>{% block title %}Bienvenid@s{% endblock %}</h1>
+
+<main class="d-flex justify-content-around my-5">
+    
+    <form action="{{ url_for('usuarios.registrar') }}" method="POST" class="col-4 p-4 text-dark card shadow">
+        <h2 class="text-primary mt-3">Register</h2>
+        {% with messages = get_flashed_messages(category_filter=['register']) %}
+        {% if messages %}
+        <div class="alert alert-danger" role="alert">
+            <strong>Hola Por Favor Ingresa sus Datos </strong>
+            {% for message in messages %}
+            <p>{{message}}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+        
+        <div class="form-group mt-3">
+            <label>Nombre</label>
+            <input type="text" name="nombre" class="form-control"> <!-- Campo para el nombre -->
+        </div>
+        <div class="form-group mt-3">
+            <label>Apellido</label>
+            <input type="text" name="apellido" class="form-control"> <!-- Campo para el apellido -->
+        </div>
+        <div class="form-group mt-3">
+            <label>Email</label>
+            <input type="text" name="email" class="form-control"> <!-- Campo para el correo electrónico -->
+        </div>
+        <div class="form-group mt-3">
+            <label>Contraseña</label>
+            <input type="password" name="password" class="form-control"> <!-- Campo para la contraseña -->
+        </div>
+        <div class="form-group mt-3">
+            <label>Confirmación</label>
+            <input type="password" name="confirm" class="form-control"> <!-- Campo para confirmar la contraseña -->
+        </div>
+        <div>
+            <input type="submit" value="Registrarme" class="btn btn-light mt-3"> <!-- Botón para enviar el formulario -->
+        </div>
+    </form>
+    <form action="/usuarios/login" method="POST" class="col-4 p-4 text-dark card shadow mt-3">
+        <h2 class="text-success">Inicio de Sesión</h2>
+            <!-- MENSAJES DE ERROR PARA EL INICIO DE SESIÓN -->
+        {% with messages = get_flashed_messages(category_filter=['login']) %}
+            {% if messages %}
+                <div class="alert alert-danger">
+                    <strong>Hola Por Favor Revisa Sus Datos</strong>
+                    {% for message in messages %}
+                    <p>{{message}}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+        <div class="form-group mt-3">
+            <label>Email</label>
+            <input type="text" name="email" class="form-control"> <!-- Campo para el correo electrónico -->
+        </div>
+        <div class="form-group mt-3">
+            <label>Contraseña</label>
+            <input type="password" name="password" class="form-control"> <!-- Campo para la contraseña -->
+        </div>
+        <br>
+        <div>
+            <input type="submit" value="Inicia Sesion" class="btn btn-light mt-3"> <!-- Botón para enviar el formulario -->
+        </div>
+    </form>
+        
+</main>
+
+
+
+
+
+
+{% endblock %}

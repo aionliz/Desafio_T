@@ -1,0 +1,40 @@
+{% extends 'base.html'%}
+
+
+
+{% block content %}
+
+<section class="container-fuid mx-auto">
+
+    <div class="container justify-content-center mt-5">
+        <h1>{% block title %} Bienvenid@, {{g.user.nombre|capitalize}} {{g.user.apellido|capitalize}} {% endblock %}</h1>
+        <h3>Todas las Asesorías</h3>
+
+        <table class="table table-hover mt-5 ">
+            <tbody class="table table-hover">
+                {% for asesoria in asesorias|reverse %}
+
+                <tr>
+                    <td>{{asesoria.tema|capitalize}}<br>
+                        {{ asesoria.fecha }}
+                    </td>
+                    <td>
+                        Solicitante: {{ asesoria.nombre_usuario |capitalize}}<br>
+                        Duración: {{ asesoria.duracion }} horas
+                    </td>
+                    <td>
+                        <a href="/vista/ver/{{ asesoria.id }}" class="btn btn-primary">Ver</a>
+                        {% if asesoria.usuario_id == session['usuario_id'] %}
+                        <a href="/vista/edit/{{asesoria.id}}" class="btn btn-warning">Editar</a>
+                        <a href="/vista/borrar/{{asesoria.id}}" class="btn btn-danger">Borrar</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+
+{% endblock %}
